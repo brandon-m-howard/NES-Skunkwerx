@@ -1,3 +1,4 @@
+.include "ppu.asm"
 .segment "HEADER"
 .byte "NES"
 .byte $1a
@@ -22,12 +23,12 @@ RESET:
   LDX #$FF
   TXS          ; Set up stack
   INX          ; now X = 0
-  STX $2000    ; disable NMI
-  STX $2001    ; disable rendering
+  STX PPUCTRL    ; disable NMI
+  STX PPUMASK    ; disable rendering
   STX $4010    ; disable DMC IRQs
 
 vblankwait1:       ; First wait for vblank to make sure PPU is ready
-  BIT $2002
+  BIT PPUSTATUS
   BPL vblankwait1
 
 clrmem:
@@ -40,7 +41,7 @@ clrmem:
   STA $0600, x
   STA $0700, x
   LDA #$FE
-  STA $0200, x    ;move all sprites off screen
+  STA $0200, x
   INX
   BNE clrmem
    

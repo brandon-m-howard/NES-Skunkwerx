@@ -1,26 +1,26 @@
 .include "header.asm"
 
 LoadPalettes:
-  LDA $2002    ; read PPU status to reset the high/low latch
+  LDA PPUSTATUS
+  BPL LoadPalettes
   LDA #$3F
-  STA $2006    ; write the high byte of $3F00 address
+  STA PPUADDR    ; write the high byte of $3F00 address
   LDA #$00
-  STA $2006    ; write the low byte of $3F00 address
+  STA PPUADDR    ; write the low byte of $3F00 address
 
   LDX #$00
 LoadPalettesLoop:
   LDA palette, x        ;load palette byte
-  STA $2007             ;write to PPU
+  STA PPUDATA             ;write to PPU
   INX                   ;set index to next byte
   CPX #$20            
   BNE LoadPalettesLoop  ;if x = $20, 32 bytes copied, all done
 
 LoadBackground1:
-  LDA $2002
   LDA #$20
-  STA $2006
+  STA PPUADDR
   LDA #$00
-  STA $2006
+  STA PPUADDR
   LDX #$00
 LoadBackgroundLoop1:
   LDA background, X
@@ -58,9 +58,9 @@ LoadSpritesLoop:
   BNE LoadSpritesLoop   ; Branch to LoadSpritesLoop if compare was Not Equal to zero
 
   LDA #%10000000   ; enable NMI, sprites from Pattern Table 0
-  STA $2000
+  STA PPUCTRL
   LDA #%00011110   ; enable sprites
-  STA $2001
+  STA PPUMASK
 
 Forever:
   JMP Forever     ;jump back to Forever, infinite loop
