@@ -1,3 +1,3 @@
-ca65 sprites.asm -o sprites.o --debug-info
-ld65 sprites.o -o sprites.nes -t nes --dbgfile sprites.dbg
-fceux sprites.nes
+ca65 src/main.asm -o obj/main.o --debug-info
+ld65 obj/main.o -o bin/main.nes -t nes --dbgfile bin/main.dbg
+fceux bin/main.nes
