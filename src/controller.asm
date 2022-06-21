@@ -10,16 +10,14 @@ SPRITE2_X = $020B
 SPRITE3_Y = $020C
 SPRITE3_X = $020F
 
-BIT0_MASK = #%00000001
-
   LDA #$01
   STA PLAYER_1
   LDA #$00
-  STA PLAYER_1     ; tell both the controllers to latch buttons
+  STA PLAYER_1
 
 ReadA: 
   LDA PLAYER_1 ; Player 1 - A  
-  AND BIT0_MASK  
+  AND #%00000001  
   BEQ ReadADone  
                  
 ReadADone:       
@@ -29,8 +27,8 @@ ReadADone:
   LDA PLAYER_1 ; player 1 - Start
 
 ReadUp:
-  LDA PLAYER_1     ; player 1 - Up
-  AND BIT0_MASK  ; erase everything but bit 0
+  LDA PLAYER_1 ; Player 1 - Up
+  AND #%00000001
   BEQ ReadUpDone
 
   LDA SPRITE0_Y
@@ -38,105 +36,102 @@ ReadUp:
   SBC #$01
   STA SPRITE0_Y
 
-  LDA SPRITE1_Y   ; load sprite X (horizontal) position
-  SEC         ; make sure the carry flag is clear
-  SBC #$01    ; A = A + 1
-  STA SPRITE1_Y   ; save sprite X (horizontal) position
+  LDA SPRITE1_Y
+  SEC
+  SBC #$01
+  STA SPRITE1_Y
 
-  LDA $0208   ; load sprite X (horizontal) position
-  SEC         ; make sure the carry flag is clear
-  SBC #$01    ; A = A + 1
-  STA $0208   ; save sprite X (horizontal) position
+  LDA SPRITE2_Y
+  SEC
+  SBC #$01
+  STA SPRITE2_Y
 
-  LDA $020C   ; load sprite X (horizontal) position
-  SEC         ; make sure the carry flag is clear
-  SBC #$01    ; A = A + 1
-  STA $020C   ; save sprite X (horizontal) position
+  LDA SPRITE3_Y
+  SEC
+  SBC #$01
+  STA SPRITE3_Y
 
 ReadUpDone:
 
 ReadDown:
-  LDA PLAYER_1     ; player 1 - Down
-  AND BIT0_MASK  ; erase everything but bit 0
+  LDA PLAYER_1 ; Player 1 - Down
+  AND #%00000001
   BEQ ReadDownDone
 
-  LDA $0200   ; load sprite X (horizontal) position
-  CLC         ; make sure the carry flag is clear
-  ADC #$01    ; A = A + 1
-  STA $0200   ; save sprite X (horizontal) position
+  LDA SPRITE0_Y
+  CLC
+  ADC #$01
+  STA SPRITE0_Y
 
-  LDA SPRITE1_Y   ; load sprite X (horizontal) position
-  CLC         ; make sure the carry flag is clear
-  ADC #$01    ; A = A + 1
-  STA SPRITE1_Y   ; save sprite X (horizontal) position
+  LDA SPRITE1_Y
+  CLC
+  ADC #$01
+  STA SPRITE1_Y
 
-  LDA $0208   ; load sprite X (horizontal) position
-  CLC         ; make sure the carry flag is clear
-  ADC #$01    ; A = A + 1
-  STA $0208   ; save sprite X (horizontal) position
+  LDA SPRITE2_Y
+  CLC
+  ADC #$01
+  STA SPRITE2_Y
 
-  LDA $020C   ; load sprite X (horizontal) position
-  CLC         ; make sure the carry flag is clear
-  ADC #$01    ; A = A + 1
-  STA $020C   ; save sprite X (horizontal) position
+  LDA SPRITE3_Y
+  CLC
+  ADC #$01
+  STA SPRITE3_Y
 
 
 ReadDownDone:
 
 ReadLeft:
-  LDA PLAYER_1     ; player 1 - Left
-  AND BIT0_MASK  ; erase everything but bit 0
+  LDA PLAYER_1 ; Player 1 - Left
+  AND #%00000001
   BEQ ReadLeftDone
 
-  ; Move Mario Left
-  LDA SPRITE0_X   ; load sprite X (horizontal) position
-  SEC         ; make sure the carry flag is clear
-  SBC #$01    ; A = A + 1
-  STA SPRITE0_X   ; save sprite X (horizontal) position
+  LDA SPRITE0_X
+  SEC
+  SBC #$01
+  STA SPRITE0_X
 
-  LDA $0207   ; load sprite X (horizontal) position
-  SEC         ; make sure the carry flag is clear
-  SBC #$01    ; A = A + 1
-  STA $0207   ; save sprite X (horizontal) position
+  LDA SPRITE1_X
+  SEC
+  SBC #$01
+  STA SPRITE1_X
 
-  LDA $020B   ; load sprite X (horizontal) position
-  SEC         ; make sure the carry flag is clear
-  SBC #$01    ; A = A + 1
-  STA $020B   ; save sprite X (horizontal) position
+  LDA SPRITE2_X
+  SEC
+  SBC #$01
+  STA SPRITE2_X
 
-  LDA $020F   ; load sprite X (horizontal) position
-  SEC         ; make sure the carry flag is clear
-  SBC #$01    ; A = A + 1
-  STA $020F   ; save sprite X (horizontal) position
+  LDA SPRITE3_X
+  SEC
+  SBC #$01
+  STA SPRITE3_X
 
 ReadLeftDone:
 
 ReadRight:
-  LDA PLAYER_1     ; player 1 - Right
-  AND BIT0_MASK  ; erase everything but bit 0
+  LDA PLAYER_1
+  AND #%00000001
   BEQ ReadRightDone
 
-  ; Move Mario Right
-  LDA SPRITE0_X   ; load sprite X (horizontal) position
-  CLC         ; make sure the carry flag is clear
-  ADC #$01    ; A = A + 1
-  STA SPRITE0_X   ; save sprite X (horizontal) position
+  LDA SPRITE0_X
+  CLC
+  ADC #$01
+  STA SPRITE0_X
 
-  LDA $0207   ; load sprite X (horizontal) position
-  CLC         ; make sure the carry flag is clear
-  ADC #$01    ; A = A + 1
-  STA $0207   ; save sprite X (horizontal) position
+  LDA SPRITE1_X
+  CLC
+  ADC #$01
+  STA SPRITE1_X
 
-  LDA $020B   ; load sprite X (horizontal) position
-  CLC         ; make sure the carry flag is clear
-  ADC #$01    ; A = A + 1
-  STA $020B   ; save sprite X (horizontal) position
+  LDA SPRITE2_X
+  CLC
+  ADC #$01
+  STA SPRITE2_X
 
-  LDA $020F   ; load sprite X (horizontal) position
-  CLC         ; make sure the carry flag is clear
-  ADC #$01    ; A = A + 1
-  STA $020F   ; save sprite X (horizontal) position
-
+  LDA SPRITE3_X
+  CLC
+  ADC #$01
+  STA SPRITE3_X
 
 ReadRightDone:
 
