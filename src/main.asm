@@ -6,14 +6,46 @@ LoadPalettes:
   STA $2006    ; write the high byte of $3F00 address
   LDA #$00
   STA $2006    ; write the low byte of $3F00 address
-  LDX #$00
 
+  LDX #$00
 LoadPalettesLoop:
   LDA palette, x        ;load palette byte
   STA $2007             ;write to PPU
   INX                   ;set index to next byte
   CPX #$20            
   BNE LoadPalettesLoop  ;if x = $20, 32 bytes copied, all done
+
+LoadBackground1:
+  LDA $2002
+  LDA #$20
+  STA $2006
+  LDA #$00
+  STA $2006
+  LDX #$00
+LoadBackgroundLoop1:
+  LDA background, X
+  STA $2007
+  INX
+  CPX #$00
+  BNE LoadBackgroundLoop1
+LoadBackgroundLoop2:
+  LDA background, X
+  STA $2007
+  INX
+  CPX #$00
+  BNE LoadBackgroundLoop2
+LoadBackgroundLoop3:
+  LDA background, X
+  STA $2007
+  INX
+  CPX #$00
+  BNE LoadBackgroundLoop3
+LoadBackgroundLoop4:
+  LDA background, X
+  STA $2007
+  INX
+  CPX #$D0
+  BNE LoadBackgroundLoop4
 
 LoadSprites:
   LDX #$00              ; start at 0
@@ -27,7 +59,7 @@ LoadSpritesLoop:
 
   LDA #%10000000   ; enable NMI, sprites from Pattern Table 0
   STA $2000
-  LDA #%00010000   ; enable sprites
+  LDA #%00011110   ; enable sprites
   STA $2001
 
 Forever:
@@ -53,6 +85,16 @@ palette:
   .byte $0F,$10,$20,$30 ; foreground palette 1
   .byte $0F,$10,$20,$30 ; foreground palette 2
   .byte $0F,$10,$20,$30 ; foreground palette 3
+
+background:
+  .byte $00,$01,$02,$03,$00,$01,$02,$03,$00,$01,$02,$03,$00,$01,$02,$03,$00,$01,$02,$03,$00,$01,$02,$03,$00,$01,$02,$03,$00,$01,$02,$03
+  .byte $02,$03,$00,$01,$02,$03,$00,$01,$02,$03,$00,$01,$02,$03,$00,$01,$02,$03,$00,$01,$02,$03,$00,$01,$02,$03,$00,$01,$02,$03,$00,$01
+  .byte $00,$01,$02,$03,$00,$01,$02,$03,$00,$01,$02,$03,$00,$01,$02,$03,$00,$01,$02,$03,$00,$01,$02,$03,$00,$01,$02,$03,$00,$01,$02,$03
+  .byte $02,$03,$00,$01,$02,$03,$00,$01,$02,$03,$00,$01,$02,$03,$00,$01,$02,$03,$00,$01,$02,$03,$00,$01,$02,$03,$00,$01,$02,$03,$00,$01
+  .byte $00,$01,$02,$03,$00,$01,$02,$03,$00,$01,$02,$03,$00,$01,$02,$03,$00,$01,$02,$03,$00,$01,$02,$03,$00,$01,$02,$03,$00,$01,$02,$03
+  .byte $02,$03,$00,$01,$02,$03,$00,$01,$02,$03,$00,$01,$02,$03,$00,$01,$02,$03,$00,$01,$02,$03,$00,$01,$02,$03,$00,$01,$02,$03,$00,$01
+  .byte $00,$01,$02,$03,$00,$01,$02,$03,$00,$01,$02,$03,$00,$01,$02,$03,$00,$01,$02,$03,$00,$01,$02,$03,$00,$01,$02,$03,$00,$01,$02,$03
+  .byte $02,$03,$00,$01,$02,$03,$00,$01,$02,$03,$00,$01,$02,$03,$00,$01,$02,$03,$00,$01,$02,$03,$00,$01,$02,$03,$00,$01,$02,$03,$00,$01
 
 sprites:
   ; y, sprite, flags, x
