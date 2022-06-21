@@ -61,20 +61,26 @@ NMI:
   
   
 palette:
-  .byte $0F,$10,$20,$30,$0F,$10,$20,$30,$0F,$10,$20,$30,$0F,$10,$20,$30
-  .byte $0F,$10,$20,$30,$0F,$10,$20,$30,$0F,$10,$20,$30,$0F,$10,$20,$30
+  .byte $0F,$10,$20,$30 ; background palette 0
+  .byte $0F,$10,$20,$30 ; background palette 1
+  .byte $0F,$10,$20,$30 ; background palette 2
+  .byte $0F,$10,$20,$30 ; background palette 3
 
+  .byte $0F,$10,$20,$30 ; foreground palette 0
+  .byte $0F,$10,$20,$30 ; foreground palette 1
+  .byte $0F,$10,$20,$30 ; foreground palette 2
+  .byte $0F,$10,$20,$30 ; foreground palette 3
 
 sprites:
+  ; y, sprite, flags, x
   .byte $80, $00, $00, $80   ;sprite 0
   .byte $80, $01, $00, $88   ;sprite 1
   .byte $88, $02, $00, $80   ;sprite 2
   .byte $88, $03, $00, $88   ;sprite 3
-  
 
 .segment "VECTORS"
-  .word NMI ; time between image on screen and refreshed 
+  .word NMI 
   .word RESET
     
 .segment "CHARS"
-    .incbin "../assets/mario.chr"
+    .incbin "../assets/assets.chr"

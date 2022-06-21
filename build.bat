@@ -1,5 +1,5 @@
-mkdir bin
-mkdir obj
+mkdir -p bin
+mkdir -p obj
 ca65 sprites.asm -o sprites.o --debug-info
 ld65 sprites.o -o sprites.nes -t nes --dbgfile sprites.dbg
 sprites.nes
